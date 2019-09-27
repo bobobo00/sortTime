@@ -1,8 +1,5 @@
 package TestSort;
 
-
-import com.sun.deploy.util.SyncAccess;
-
 import java.util.*;
 
 /**
@@ -15,8 +12,8 @@ import java.util.*;
 
 public class Lab {
     private  static SortMethod[] methods={new InsertSortMethod(),new SelectSortMethod(),new HeapSortMethod(),
-            new BubbleSortMethod(), new ShellSortMethod()};
-
+            new BubbleSortMethod(), new ShellSortMethod(),new QuickSortMethod(),new QuickSortMethod1()};
+    //构建随机数组
     public static  int[] buildArray(int n){
         Random random=new Random(2019-9-25);
         int[] array=new int[n];
@@ -62,6 +59,7 @@ public class Lab {
    public static int[] buildEquals(int n){
         return new int[n];
     }
+    //返回排序时间
     public static double TestRuntime(SortMethod sm,int[] arr){
         long begin=System.nanoTime();
         sm.sort(arr);
@@ -69,6 +67,7 @@ public class Lab {
         double ms=(end-begin)*1.0/1000000;
         return ms;
     }
+    //根据需求打印相应类型的排序数据
     public static void menue(List<Data> list){
         Scanner scanner=new Scanner(System.in);
         System.out.println("请输入要查看数组类型（随机，升序，降序，全部）");
@@ -110,9 +109,10 @@ public class Lab {
              default:break;
         }
     }
+    //将排序方法数据存到List中
     public static List<Data> test(){
         List<Data> list=new ArrayList<>();
-        for (int i = 1; i <5 ; i++) {
+        for (int i = 1; i <4 ; i++) {
             int n=i*5000;
             int[] array=buildArray(n);
             int[] sortedUp=builedSortedUp(n);
@@ -139,6 +139,7 @@ public class Lab {
         menue(result);
     }
 }
+//构建排序类引用包括（排序名称，排序时间，数组大小，数组类型）
 class Data {
     String sortname;
     double sorttime;
@@ -158,11 +159,13 @@ class Data {
         return String.format("%s      %.5f       %d        %s",sortname,sorttime,arraysize,arraytype);
     }
 }
-interface method{
+//方法接口
+interface methods{
     String getNmae();
     void sort(int[] arr);
 }
-class SortMethod implements method {
+//实现类-排序方法
+class SortMethod implements methods {
 
     @Override
     public String getNmae() {
@@ -174,6 +177,7 @@ class SortMethod implements method {
 
     }
 }
+//子类-明确排序方法
 class InsertSortMethod  extends SortMethod {
 
     @Override
@@ -233,6 +237,28 @@ class HeapSortMethod extends SortMethod{
     @Override
     public void sort(int[] arr) {
         TestSort.heapSort(arr);
+    }
+}
+class QuickSortMethod extends SortMethod{
+    @Override
+    public String getNmae() {
+        return "快速排序";
+    }
+
+    @Override
+    public void sort(int[] arr) {
+        TestSort.quickSort(arr,0,arr.length-1);
+    }
+}
+class QuickSortMethod1 extends SortMethod{
+    @Override
+    public String getNmae() {
+        return "快速排序1";
+    }
+
+    @Override
+    public void sort(int[] arr) {
+        TestSort.quickSort1(arr);
     }
 }
 
