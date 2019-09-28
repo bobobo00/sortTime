@@ -12,7 +12,8 @@ import java.util.*;
 
 public class Lab {
     private  static SortMethod[] methods={new InsertSortMethod(),new SelectSortMethod(),new HeapSortMethod(),
-            new BubbleSortMethod(), new ShellSortMethod(),new QuickSortMethod(),new QuickSortMethod1()};
+            new BubbleSortMethod(), new ShellSortMethod()/*,new QuickSortMethod()*/,new QuickSortMethod1(),
+            new MergeSortMethod(),new MergeSortMethod1()};
     //构建随机数组
     public static  int[] buildArray(int n){
         Random random=new Random(2019-9-25);
@@ -112,7 +113,7 @@ public class Lab {
     //将排序方法数据存到List中
     public static List<Data> test(){
         List<Data> list=new ArrayList<>();
-        for (int i = 1; i <4 ; i++) {
+        for (int i = 1; i <5 ; i++) {
             int n=i*5000;
             int[] array=buildArray(n);
             int[] sortedUp=builedSortedUp(n);
@@ -121,15 +122,15 @@ public class Lab {
 
             for(SortMethod method:methods){
                 int[] arr=array.clone();
-                list.add(new Data(method.getNmae(),TestRuntime(method,arr),n,"随机"));
+                list.add(new Data(method.getName(),TestRuntime(method,arr),n,"随机"));
             }
             for(SortMethod method:methods){
                 int[] arr=sortedUp.clone();
-                list.add(new Data(method.getNmae(),TestRuntime(method,arr),n,"升序"));
+                list.add(new Data(method.getName(),TestRuntime(method,arr),n,"升序"));
             }
             for(SortMethod method:methods){
                 int[] arr=sortedDown.clone();
-                list.add(new Data(method.getNmae(),TestRuntime(method,arr),n,"降序"));
+                list.add(new Data(method.getName(),TestRuntime(method,arr),n,"降序"));
             }
         }
         return list;
@@ -160,16 +161,16 @@ class Data {
     }
 }
 //方法接口
-interface methods{
-    String getNmae();
+interface Methods{
+    String getName();
     void sort(int[] arr);
 }
 //实现类-排序方法
-class SortMethod implements methods {
+class SortMethod implements Methods {
 
     @Override
-    public String getNmae() {
-        return null;
+    public String getName() {
+        return "";
     }
 
     @Override
@@ -181,7 +182,7 @@ class SortMethod implements methods {
 class InsertSortMethod  extends SortMethod {
 
     @Override
-    public String getNmae() {
+    public String getName() {
         return "插入排序";
     }
 
@@ -193,7 +194,7 @@ class InsertSortMethod  extends SortMethod {
 class ShellSortMethod extends SortMethod{
 
     @Override
-    public String getNmae() {
+    public String getName() {
         return "希尔排序";
     }
 
@@ -206,7 +207,7 @@ class ShellSortMethod extends SortMethod{
 class BubbleSortMethod extends SortMethod{
 
     @Override
-    public String getNmae() {
+    public String getName() {
         return "冒泡排序";
     }
 
@@ -218,7 +219,7 @@ class BubbleSortMethod extends SortMethod{
 class SelectSortMethod extends SortMethod{
 
     @Override
-    public String getNmae() {
+    public String getName() {
         return "选择排序";
     }
 
@@ -230,7 +231,7 @@ class SelectSortMethod extends SortMethod{
 class HeapSortMethod extends SortMethod{
 
     @Override
-    public String getNmae() {
+    public String getName() {
         return "堆排序  ";
     }
 
@@ -239,9 +240,10 @@ class HeapSortMethod extends SortMethod{
         TestSort.heapSort(arr);
     }
 }
+//多组数据可能会出现栈溢出问题。
 class QuickSortMethod extends SortMethod{
     @Override
-    public String getNmae() {
+    public String getName() {
         return "快速排序";
     }
 
@@ -252,13 +254,35 @@ class QuickSortMethod extends SortMethod{
 }
 class QuickSortMethod1 extends SortMethod{
     @Override
-    public String getNmae() {
+    public String getName() {
         return "快速排序1";
     }
 
     @Override
     public void sort(int[] arr) {
         TestSort.quickSort1(arr);
+    }
+}
+class MergeSortMethod extends SortMethod{
+    @Override
+    public String getName() {
+        return "归并排序";
+    }
+
+    @Override
+    public void sort(int[] arr) {
+        TestSort.mergeSort(arr);
+    }
+}
+class MergeSortMethod1 extends SortMethod{
+    @Override
+    public String getName() {
+        return "归并排序1";
+    }
+
+    @Override
+    public void sort(int[] arr) {
+        TestSort.mergeSort1(arr);
     }
 }
 
